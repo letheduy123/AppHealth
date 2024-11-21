@@ -1,118 +1,84 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { Image, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Login from './Login';
+import Splash from './Splash';
+import SignUp from './SignUp';
+import Home from './Home';
+import Go from './Go';
+import Music from './Music';
+import Yoga from './Yoga';
+import Grateful from './Grateful';
+import BMI from './BMI';
+import Sleep from './Sleep'
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const  TabNavigator = () => {
+ 
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          if (route.name === 'Home') {
+            return <Image source={require('./images/house.png')} />;
+          } else if (route.name === 'Go') {
+            return <Image source={require('./images/runner.png')} />;
+          }else if (route.name === 'Grateful') {
+            return <Image source={require('./images/book.png')} />;
+          }else if (route.name === 'Yoga') {
+            return <Image source={require('./images/lotus.png')} />;
+          }else if (route.name === 'Music') {
+            return <Image source={require('./images/music-player.png')} />;
+          }
+        },
+        tabBarLabel: () => null,  // Ẩn tiêu đề bên dưới icon
+        tabBarActiveTintColor: '#58bb3c',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={Home} options={{ title: 'Home', headerShown: false }} />
+      <Tab.Screen name="Go" component={Go} options={{ title: 'Go', headerShown: false }} />
+      <Tab.Screen name="Grateful" component={Grateful} options={{ title: 'Grateful', headerShown: false }} />
+      <Tab.Screen name="Music" component={Music} options={{ title: 'Music', headerShown: false }} />
+      <Tab.Screen name="Yoga" component={Yoga} options={{ title: 'Yoga', headerShown: false }} />
+     
+    </Tab.Navigator>
   );
+};
+
+
+const StackNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName='Splash'>
+      <Stack.Screen name="Splash" component={Splash} options={{ title: 'Splash', headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ title: 'Login', headerShown: false }} />
+      <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'SignUp', headerShown: false }} />
+      <Stack.Screen name="Home" component={TabNavigator} options={{ title: 'Home', headerShown: false }} />
+      <Stack.Screen name="BMI" component={BMI} options={{ title: 'BMI', headerShown: false }} />
+      <Stack.Screen name="Sleep" component={Sleep} options={{ title: 'Sleep', headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+const App = () => {
+  return ( 
+  
+  
+
+ 
+  <NavigationContainer>
+  <StackNavigator />
+</NavigationContainer>
+
+  );
+  
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+export default App
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+const styles = StyleSheet.create({})
